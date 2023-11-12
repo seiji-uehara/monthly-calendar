@@ -80,20 +80,23 @@ for date_cnt in range(first_date.day, last_date.day + 1):
         # 年始
         buf_bgcolor = bgcolor_red
 
-    elif buf_date.weekday() == 5: #土曜の場合
+    elif buf_date.weekday() == 5: # 土曜の場合
         # webから祝日の情報を取得する(祝日のみhollidayになる)
         res = requests.get(f'https://s-proj.com/utils/checkHoliday.php?kind=ph&date={normalize}{date_cnt:02}')
 
-        if res.content.decode("utf-8") == "holiday": #祝日の場合
+        if res.content.decode("utf-8") == "holiday": # 祝日の場合
             buf_bgcolor = bgcolor_red
         else:
             buf_bgcolor = bgcolor_blue
 
-    else:
+    elif buf_date.weekday() == 6: # 日曜の場合
+        buf_bgcolor = bgcolor_red
+        
+    else:                         # 月～金
         # webから祝日の情報を取得する
         res = requests.get(f'https://s-proj.com/utils/checkHoliday.php?date={normalize}{date_cnt:02}')
         
-        if res.content.decode("utf-8") == "holiday": #日曜・祝日の場合
+        if res.content.decode("utf-8") == "holiday": # 祝日の場合
             buf_bgcolor = bgcolor_red
         else: # 平日
             buf_bgcolor = bgcolor_none
